@@ -12,7 +12,6 @@ function updateUser(req, res) {
 
 function getUser(req, res) {
 	// Simulação de obtenção de usuário
-	console.log("Oi");
 	const user = { id: 1, name: "John Doe", email: "john@example.com" };
 	res.json(user);
 }

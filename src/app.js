@@ -6,7 +6,7 @@ const logger = require("./logger");
 
 app.use(express.json());
 app.use(logger);
-app.use("/api", authMiddleware, routes);
+app.use("/", authMiddleware, routes);
 
 app.use((err, req, res, next) => {
 	if (err.status) {
@@ -14,11 +14,10 @@ app.use((err, req, res, next) => {
 	} else {
 		res.status(500).json({ error: "A server error occurred" });
 	}
-	logger.error(err.stack);
+	logger(req, res, next);
 });
 
 const PORT = process.env.PORT || 3000;
 
-app.use("/", routes);
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

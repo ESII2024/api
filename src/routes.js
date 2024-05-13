@@ -4,7 +4,7 @@ const userController = require("./controllers/userController");
 const orderController = require("./controllers/orderController");
 // User routes
 router.post("/user", userController.createUser);
-router.put("/user", userController.updateUser);
+router.put("/user/:id", userController.updateUser);
 router.get("/user", userController.getUser);
 router.post("/login", userController.login);
 // Order routes

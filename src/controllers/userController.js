@@ -4,15 +4,14 @@ const UserDatabaseStub = require('../database/userDatabaseStub'); // Certifica-t
 const dbStub = new UserDatabaseStub();
 
 function createUser(req, res) {
-	// Simulação de criação de usuário
-	const user = { id: 1, name: "John Doe", email: "john@example.com" };
-	res.json(user);
+	//const user = { id: 1, name: "John Doe", email: "john@example.com" };
+	res.json(dbStub.getById(1));
 }
 
 function updateUser(req, res) {
-	// Simulação de atualização de usuário
-	const user = { id: 1, name: "Updated User", email: "updated@example.com",  role: "user" };
-	res.json(user);
+	//const user = { id: 1, name: "Updated User", email: "updated@example.com",  role: "user" };
+	
+	res.json(dbStub.update(req.params.id, req.body));
 }
 
 function getUser(req, res) {

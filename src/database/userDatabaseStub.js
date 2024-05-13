@@ -1,9 +1,9 @@
 class UserDatabaseStub {
 	constructor() {
 		this.users = [
-			{ id: 1, name: "João", email: "joao@example.com" },
-			{ id: 2, name: "Maria", email: "maria@example.com" },
-			{ id: 3, name: "Pedro", email: "pedro@example.com" },
+			{ id: 1, name: "João", email: "joao@example.com", role: "admin" },
+			{ id: 2, name: "Maria", email: "maria@example.com", role: "user" },
+			{ id: 3, name: "Pedro", email: "pedro@example.com", role: "user" },
 		];
 	}
 
@@ -22,11 +22,15 @@ class UserDatabaseStub {
 	}
 
 	update(id, updatedUser) {
-		const index = this.users.findIndex((user) => user.id === id);
+		console.log(id, updatedUser)
+		const index = this.users.findIndex((user) => user.id === parseInt(id));
+
+		console.log(id, index, this.users)
 
 		if (index !== -1) {
-			this.users[index] = { ...updatedUser, id };
-			return true;
+			this.users[index] = { id, ...updatedUser };
+			console.log(this.users[index])
+			return this.users[index];
 		}
 
 		return false;
@@ -36,6 +40,8 @@ class UserDatabaseStub {
 		this.users = this.users.filter((user) => user.id !== id);
 	}
 }
+
+module.exports = UserDatabaseStub;
 
 /*const dbStub = new UserDatabaseStub();
 console.log(dbStub.getUserById(2));

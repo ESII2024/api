@@ -1,17 +1,19 @@
 const jwt = require("jsonwebtoken");
-const rbac = require("./rbac");
+const { checkPermission } = require("./rbac");
+const UserDatabaseStub = require("./database/userDatabaseStub");
 
 const verifyToken = (token) => {
-	return { id: 1, name: "User", email: "user@example.com",  role: "user" };
+	user = new UserDatabaseStub();
+	return user.getById(1);
 	//return jwt.verify(token, "secret");
 };
 
 const hasPermission = (user, method, path) => {
-	const role = user.role;
 	const permission = `${method}:${path}`;
-	console.log(role, permission)
+	console.log(user.role, method, path)
+	//console.log(role, permission, checkPermission(user.role, method, path));
 
-	return rbac[role].includes(permission);
+	return checkPermission(user.role, method, path);
 };
 
 module.exports = { verifyToken, hasPermission };

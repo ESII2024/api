@@ -1,12 +1,15 @@
 const express = require("express");
+const bodyParser = require('body-parser');
 const app = express();
 const routes = require("./routes");
 const authMiddleware = require("./authMiddleware");
 const logger = require("./logger");
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(logger);
-app.use("/", authMiddleware, routes);
+app.use("/api", authMiddleware, routes);
 
 app.use((err, req, res, next) => {
 	if (err.status) {

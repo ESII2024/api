@@ -5,7 +5,7 @@ const orderController = require("./controllers/orderController");
 // User routes
 router.post("/user", userController.createUser);
 router.put("/user/:id", userController.updateUser);
-router.get("/user", userController.getUser);
+router.get("/user/:id", userController.getUser);
 router.post("/login", userController.login);
 // Order routes
 router.post("/order", orderController.createOrder);

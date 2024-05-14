@@ -1,4 +1,4 @@
-class UserDatabaseStub {
+class OrderDatabaseStub {
 	constructor() {
 		this.orders = [
 			{ id: 1, items: ["Item 1", "Item 2"], total: 50.0, user: 1 },
@@ -31,3 +31,5 @@ class UserDatabaseStub {
 		this.orders = this.orders.filter((order) => order.id !== id);
 	}
 }
+
+module.exports = OrderDatabaseStub;

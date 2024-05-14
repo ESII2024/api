@@ -22,14 +22,11 @@ class UserDatabaseStub {
 	}
 
 	update(id, updatedUser) {
-		console.log(id, updatedUser)
 		const index = this.users.findIndex((user) => user.id === parseInt(id));
-
-		console.log(id, index, this.users)
 
 		if (index !== -1) {
 			this.users[index] = { id, ...updatedUser };
-			console.log(this.users[index])
+			console.log(this.users[index]);
 			return this.users[index];
 		}
 

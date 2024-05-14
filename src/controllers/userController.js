@@ -1,23 +1,17 @@
-const UserDatabaseStub = require('../database/userDatabaseStub'); // Certifica-te de que o caminho está correto
+const UserDatabaseStub = require('../database/userDatabaseStub');
 
-// Cria uma instância global do stub
 const dbStub = new UserDatabaseStub();
 
 function createUser(req, res) {
-	//const user = { id: 1, name: "John Doe", email: "john@example.com" };
 	res.json(dbStub.getById(1));
 }
 
 function updateUser(req, res) {
-	//const user = { id: 1, name: "Updated User", email: "updated@example.com",  role: "user" };
-	
 	res.json(dbStub.update(req.params.id, req.body));
 }
 
 function getUser(req, res) {
-	// Simulação de obtenção de usuário
-	const user = { id: 1, name: "John Doe", email: "john@example.com", role: "admin" };
-	res.json(user);
+	res.json(dbStub.getById(parseInt(req.params.id)));
 }
 
 function login(req, res) {

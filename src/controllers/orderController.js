@@ -1,3 +1,7 @@
+const OrderDatabaseStub = require('../database/orderDatabaseStub');
+
+const dbStub = new OrderDatabaseStub();
+
 function createOrder(req, res) {
 	// Simulação de criação de pedido
 	const order = { id: 1, items: ["Item 1", "Item 2"], total: 50.0 };
@@ -5,10 +9,8 @@ function createOrder(req, res) {
 }
 
 function getOrder(req, res) {
-	// Simulação de obtenção de pedido
 	const orderId = req.params.id;
-	const order = { id: orderId, items: ["Item 1", "Item 2"], total: 50.0 };
-	res.json(order);
+	res.json(dbStub.getById(parseInt(orderId)));
 }
 
 module.exports = { createOrder, getOrder };

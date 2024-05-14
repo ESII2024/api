@@ -1,9 +1,9 @@
-const UserDatabaseStub = require('../database/userDatabaseStub');
+const UserDatabaseStub = require("../database/userDatabaseStub");
 
 const dbStub = new UserDatabaseStub();
 
 function createUser(req, res) {
-	res.json(dbStub.getById(1));
+	res.json(dbStub.create(req.body));
 }
 
 function updateUser(req, res) {
@@ -15,7 +15,6 @@ function getUser(req, res) {
 }
 
 function login(req, res) {
-	// Simulação de login
 	const token = "mocked_token";
 	res.json({ token });
 }

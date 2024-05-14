@@ -12,23 +12,11 @@ class OrderDatabaseStub {
 		return order ? { ...order } : null;
 	}
 
-	add(newOrder) {
-		this.orders.push(newOrder);
-	}
-
-	update(id, updatedOrder) {
-		const index = this.orders.findIndex((order) => order.id === id);
-
-		if (index !== -1) {
-			this.orders[index] = { ...updatedOrder, id };
-			return true;
-		}
-
-		return false;
-	}
-
-	delete(id) {
-		this.orders = this.orders.filter((order) => order.id !== id);
+	create(newOrder) {
+		const newId = this.orders.length ? Math.max(...this.orders.map((order) => order.id)) + 1 : 1;
+		const orderToAdd = { id: newId, ...newOrder };
+		this.orders.push(orderToAdd);
+        return { success: true, data: orderToAdd };
 	}
 }
 

@@ -23,7 +23,7 @@ class UserDatabaseStub {
 
 	update(id, updatedUser) {
 		const index = this.users.findIndex((user) => user.id === parseInt(id));
-
+		id = parseInt(id)
 		if (index !== -1) {
 			this.users[index] = { id, ...updatedUser };
 			console.log(this.users[index]);
@@ -32,6 +32,28 @@ class UserDatabaseStub {
 
 		return false;
 	}
+
+	create(user) {
+		if (!user.name || !user.email || !user.role) {
+            return { success: false, message: "Todos os campos são necessários: name, email, role." };
+        }
+
+        const emailExists = this.users.some(existingUser => existingUser.email === user.email);
+        if (emailExists) {
+            return { success: false, message: "Email já está em uso." };
+        }
+
+        const newId = this.users.length > 0 ? Math.max(...this.users.map(u => u.id)) + 1 : 1;
+
+        const newUser = {
+            id: newId,
+            ...user
+        };
+
+        this.users.push(newUser);
+
+        return { success: true, data: newUser };
+    }
 
 	delete(id) {
 		this.users = this.users.filter((user) => user.id !== id);

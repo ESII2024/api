@@ -4,8 +4,7 @@ const dbStub = new OrderDatabaseStub();
 
 function createOrder(req, res) {
 	// Simulação de criação de pedido
-	const order = { id: 1, items: ["Item 1", "Item 2"], total: 50.0 };
-	res.json(order);
+	res.json(dbStub.create(req.body));
 }
 
 function getOrder(req, res) {

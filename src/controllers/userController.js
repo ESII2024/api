@@ -15,8 +15,10 @@ function getUser(req, res) {
 }
 
 function login(req, res) {
-	const token = "mocked_token";
-	res.json({ token });
+	const { email } = req.body;
+	const { password } = req.body;
+	const data = dbStub.login(email, password);
+	res.json(data);
 }
 
 module.exports = { createUser, updateUser, getUser, login };

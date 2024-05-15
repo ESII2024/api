@@ -1,19 +1,14 @@
 class UserDatabaseStub {
 	constructor() {
 		this.users = [
-			{ id: 1, name: "João", email: "joao@example.com", role: "admin" },
-			{ id: 2, name: "Maria", email: "maria@example.com", role: "user" },
-			{ id: 3, name: "Pedro", email: "pedro@example.com", role: "user" },
+			{ id: 1, name: "João", email: "joao@example.com", role: "admin", password: "senha" },
+			{ id: 2, name: "Maria", email: "maria@example.com", role: "user", password: "senha" },
+			{ id: 3, name: "Pedro", email: "pedro@example.com", role: "user", password: "senha" },
 		];
 	}
 
 	getById(id) {
 		const user = this.users.find((user) => user.id === id);
-		return user ? { ...user } : null;
-	}
-
-	getByEmail(email) {
-		const user = this.users.find((user) => user.email === email);
 		return user ? { ...user } : null;
 	}
 
@@ -34,8 +29,8 @@ class UserDatabaseStub {
 	}
 
 	create(user) {
-		if (!user.name || !user.email || !user.role) {
-            return { success: false, message: "Todos os campos são necessários: name, email, role." };
+		if (!user.name || !user.email || !user.role || !user.password) {
+            return { success: false, message: "Todos os campos são necessários." };
         }
 
         const emailExists = this.users.some(existingUser => existingUser.email === user.email);
@@ -58,20 +53,16 @@ class UserDatabaseStub {
 	delete(id) {
 		this.users = this.users.filter((user) => user.id !== id);
 	}
+
+	login(email, password) {
+		const user = this.users.find(user => user.email === email && user.password === password);
+		if (user) {
+			const token = Math.random().toString(36).substring(7);
+			return { user, token };
+		} else {
+			return null;
+		}
+	}
 }
 
 module.exports = UserDatabaseStub;
-
-/*const dbStub = new UserDatabaseStub();
-console.log(dbStub.getUserById(2));
-console.log(dbStub.getUserByEmail("joao@example.com"));
-
-dbStub.addUser({ id: 4, name: "Ana", email: "ana@example.com" });
-console.log(dbStub.users);
-
-dbStub.updateUser(3, { name: "Pedro Silva", email: "pedro.silva@example.com" });
-console.log(dbStub.getUserById(3));
-
-dbStub.deleteUser(1);
-console.log(dbStub.users);
-*/

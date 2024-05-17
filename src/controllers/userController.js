@@ -3,15 +3,21 @@ const UserDatabaseStub = require("../database/userDatabaseStub");
 const dbStub = new UserDatabaseStub();
 
 function createUser(req, res) {
-	res.json(dbStub.create(req.body));
+	const { name, email, role, password } = req.body;
+	if (!name || !email || !role || !password) {
+		return { success: false, message: "Todos os campos são necessários." };
+	}
+	res.json(dbStub.create(name, email, role, password));
 }
 
 function updateUser(req, res) {
-	res.json(dbStub.update(req.params.id, req.body));
+	const { id } = req.params;
+	res.json(dbStub.update(id, req.body));
 }
 
 function getUser(req, res) {
-	res.json(dbStub.getById(parseInt(req.params.id)));
+	const { id } = req.params;
+	res.json(dbStub.get(id));
 }
 
 function login(req, res) {

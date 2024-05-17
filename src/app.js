@@ -1,7 +1,8 @@
 const express = require("express");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 const app = express();
-const routes = require("./routes");
+const routes = require("./routes/routes");
+const authRoutes = require("./routes/auth.routes");
 const authMiddleware = require("./authMiddleware");
 const logger = require("./logger");
 
@@ -9,6 +10,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(logger);
+
+/** Routes */
+app.use("/api", authRoutes);
 app.use("/api", authMiddleware, routes);
 
 app.use((err, req, res, next) => {
@@ -21,6 +25,5 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
-
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

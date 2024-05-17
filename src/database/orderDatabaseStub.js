@@ -7,7 +7,7 @@ class OrderDatabaseStub {
 		];
 	}
 
-	getById(id) {
+	get(id) {
 		const order = this.orders.find((order) => order.id === id);
 		return order ? { ...order } : null;
 	}

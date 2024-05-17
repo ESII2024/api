@@ -1,11 +1,16 @@
 const { verifyToken, hasPermission } = require("./auth");
 const authMiddleware = (req, res, next) => {
-	const token = "x"; /*req.headers.authorization*/
-	if (token == null) {
-		next({ status: 401, message: "Token does't exist" });
-		return;
-	}
 	try {
+		const headerAuthrorization = req.headers.authorization
+		if (headerAuthrorization == null) {
+			next({ status: 401, message: "Token does't exist" });
+			return;
+		}
+		const token = headerAuthrorization.replace("Bearer ", "");
+		if (token == null) {
+		next({ status: 401, message: "Token does't exist" });
+			return;
+		}
 		const decoded = verifyToken(token);
 		req.user = decoded;
 		if (hasPermission(req.user, req.method, req.originalUrl)) {

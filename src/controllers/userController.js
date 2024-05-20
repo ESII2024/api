@@ -5,7 +5,7 @@ const dbStub = new UserDatabaseStub();
 function createUser(req, res) {
 	const { name, email, role, password } = req.body;
 	if (!name || !email || !role || !password) {
-		return { success: false, message: "Todos os campos são necessários." };
+		res.json({ success: false, message: "Todos os campos são necessários." });
 	}
 	res.json(dbStub.create(name, email, role, password));
 }

@@ -32,7 +32,7 @@ class UserDatabaseStub {
 			return this.users[index];
 		}
 
-		return false;
+		return { success: true, error: "Utilizador não existe." };
 	}
 
 	create(name, email, role, password) {

@@ -4,9 +4,10 @@ const jwt = require("jsonwebtoken");
 class UserDatabaseStub {
 	constructor() {
 		this.users = [
-			{ id: 1, name: "João", email: "joao@example.com", role: "admin", password: "senha" },
-			{ id: 2, name: "Maria", email: "maria@example.com", role: "user", password: "senha" },
-			{ id: 3, name: "Pedro", email: "pedro@example.com", role: "user", password: "senha" },
+			{ id: 1, name: "Lucas Sebastião", email: "lucasmsebastiao@gmail.com", role: "admin", password: "senha" },
+			{ id: 2, name: "João", email: "joao@example.com", role: "admin", password: "senha" },
+			{ id: 3, name: "Maria", email: "maria@example.com", role: "user", password: "senha" },
+			{ id: 4, name: "Pedro", email: "pedro@example.com", role: "user", password: "senha" },
 		];
 	}
 
@@ -16,8 +17,8 @@ class UserDatabaseStub {
 	}
 
 	update(id, user) {
-		const index = this.users.findIndex((user) => user.id === parseInt(id));
 		id = parseInt(id);
+		const index = this.users.findIndex((user) => user.id === id);
 		if (index !== -1) {
 			this.users[index] = { id, ...user };
 			console.log(this.users[index]);

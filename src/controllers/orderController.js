@@ -11,8 +11,8 @@ function createOrder(req, res) {
 }
 
 function getOrder(req, res) {
-	const orderId = req.params.id;
-	res.json(dbStub.get(parseInt(orderId)));
+	const { id } = req.params;
+	res.json(dbStub.get(parseInt(id)));
 }
 
 module.exports = { createOrder, getOrder };

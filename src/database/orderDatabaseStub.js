@@ -9,7 +9,7 @@ class OrderDatabaseStub {
 
 	get(id) {
 		const order = this.orders.find((order) => order.id === id);
-		return order ? { ...order } : null;
+		return order ? { ...order } : { success: true, error: "Utilizador não existe." };
 	}
 
 	create(newOrder) {

@@ -3,7 +3,10 @@ const OrderDatabaseStub = require('../database/orderDatabaseStub');
 const dbStub = new OrderDatabaseStub();
 
 function createOrder(req, res) {
-	// Simulação de criação de pedido
+	const { items, total, user } = req.body;
+	if (!items || !total || !user) {
+		res.json({ success: false, message: "Todos os campos são necessários." });
+	}
 	res.json(dbStub.create(req.body));
 }
 

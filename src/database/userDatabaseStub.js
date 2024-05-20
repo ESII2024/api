@@ -15,12 +15,19 @@ class UserDatabaseStub {
 		const user = this.users.find((user) => user.id === parseInt(id));
 		return user ? { ...user } : null;
 	}
-
 	update(id, user) {
 		id = parseInt(id);
 		const index = this.users.findIndex((user) => user.id === id);
 		if (index !== -1) {
-			this.users[index] = { id, ...user };
+			const currentUser = this.users[index];
+			const updatedUser = {
+				id: currentUser.id,
+				name: user.name !== null && user.name !== undefined ? user.name : currentUser.name,
+				email: user.email !== null && user.email !== undefined ? user.email : currentUser.email,
+				role: user.role !== null && user.role !== undefined ? user.role : currentUser.role,
+				password: user.password !== null && user.password !== undefined ? user.password : currentUser.password,
+			};
+			this.users[index] = updatedUser;
 			console.log(this.users[index]);
 			return this.users[index];
 		}

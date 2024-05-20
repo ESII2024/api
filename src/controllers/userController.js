@@ -12,6 +12,10 @@ function createUser(req, res) {
 
 function updateUser(req, res) {
 	const { id } = req.params;
+	const { name, email, role, password } = req.body;
+	if (!name || !email || !role || !password) {
+		return { success: false, message: "Todos os campos são necessários." };
+	}
 	res.json(dbStub.update(id, req.body));
 }
 

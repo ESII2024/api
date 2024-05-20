@@ -77,7 +77,7 @@ class UserDatabaseStub {
 			const token = jwt.sign({ ...user }, JWT_SECRET, { expiresIn: "1h" });
 			return { user, token };
 		} else {
-			return null;
+			return { success: false, message: "Algum dado esta errado." };
 		}
 	}
 }

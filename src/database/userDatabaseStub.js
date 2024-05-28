@@ -61,23 +61,18 @@ class UserDatabaseStub {
 	}
 
 	login(email, password) {
-		const user = this.users.find((user) => user.email === email && user.password === password);
-		if (user) {
-			const token = Math.random().toString(36).substring(7);
-			return { user, token };
-		} else {
-			return null;
-		}
-	}
-
-	login(email, password) {
-		const user = this.users.find((user) => user.email === email && user.password === password);
-		if (user) {
-			console.log({ id: user.id, email: user.email });
-			const token = jwt.sign({ ...user }, JWT_SECRET, { expiresIn: "1h" });
-			return { user, token };
-		} else {
-			return { success: false, message: "Algum dado esta errado." };
+		try {
+			const user = this.users.find((user) => user.email === email && user.password === password);
+			if (user) {
+				const token = jwt.sign({ ...user }, JWT_SECRET, { expiresIn: "1h" });
+				console.log({...user});
+				console.log({ oi: "oi", user, ola: token });
+				return { user, token };
+			} else {
+				return { success: false, message: "Algum dado esta errado." };
+			}
+		} catch (e) {
+			throw new Error(e);
 		}
 	}
 }

@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
 			return;
 		}
 		const token = headerAuthrorization.replace("Bearer ", "");
-		if (token == null) {
+		if (!token) { // (!token) tambem verifica para token vazio
 		next({ status: 401, message: "Token does't exist" });
 			return;
 		}

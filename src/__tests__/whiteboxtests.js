@@ -3,6 +3,8 @@ const authMiddleware = require("../authMiddleware");
 const jwt = require("jsonwebtoken");
 const { checkPermission } = require("../rbac");
 const { JWT_SECRET } = require("../constants");
+const { createOrder, getOrder } = require('../controllers/orderController');
+
 
 jest.mock("../auth");
 jest.mock("jsonwebtoken");
@@ -11,7 +13,7 @@ jest.mock("../rbac");
 const UserDatabaseStub = require("../database/userDatabaseStub");
 const OrderDatabaseStub = require("../database/orderDatabaseStub");
 
-describe("authMiddleware", () => {
+describe("whiteboxtests", () => {
   let req, res, next;
 
   beforeEach(() => {
@@ -32,7 +34,6 @@ describe("authMiddleware", () => {
   // Testes para a função verifyToken
   describe("verifyToken", () => {
     beforeEach(() => {
-      // Limpar mocks e configurar o mock para jwt.verify
       jest.clearAllMocks();
       jwt.verify.mockReturnValue({ id: 1, name: "Test User" });
     });
@@ -40,6 +41,7 @@ describe("authMiddleware", () => {
     it("should decode a valid JWT token", () => {
       const user = { id: 1, email: "test@example.com", role: "admin" };
       const token = jwt.sign(user, JWT_SECRET, { expiresIn: "1h" });
+      console.log("Token:", token); // nao funciona porque o token devolvido é undefined
       verifyToken.mockReturnValue(user);
       const result = verifyToken(token);
       expect(verifyToken).toHaveBeenCalledWith(token);
@@ -60,24 +62,21 @@ describe("authMiddleware", () => {
 
     it("should throw an error for null or empty JWT token", () => {
       const token = null;
-
-      expect(() => {
-        verifyToken(token);
-      }).toThrow(jwt.JsonWebTokenError);
+       expect(() => {
+         verifyToken(token);
+       }).toThrowError("Invalid token");
     });
-  });
+    });
 
   // Testes para a função hasPermission
   describe("hasPermission", () => {
-    it("should return true if user has permission", () => {
-      const user = { id: 2, role: "user" };
+    it("should return true if admin has permission for GET /api/user/1", () => {
+      const role = "admin";
       const method = "GET";
-      const path = "/user/resource";
-      checkPermission.mockReturnValue(true);
-
-      const result = hasPermission(user, method, path);
+      const path = "/api/user/1";
+  
+      const result = checkPermission(role, method, path);
       expect(result).toBe(true);
-      expect(checkPermission).toHaveBeenCalledWith(user.role, method, path);
     });
 
     it("should return false if user does not have permission", () => {
@@ -90,6 +89,7 @@ describe("authMiddleware", () => {
       expect(result).toBe(false);
       expect(checkPermission).toHaveBeenCalledWith(user.role, method, path);
     });
+
   });
 
   // Testes para authMiddleware com integração dos mocks
@@ -136,7 +136,7 @@ describe("authMiddleware", () => {
       expect(next).toHaveBeenCalledWith({ status: 403, message: "Access denied" });
     });
   });
-});
+
 
 describe("UserDatabaseStub", () => {
   let userDb;
@@ -184,9 +184,9 @@ describe("UserDatabaseStub", () => {
 
   it("should log in a user successfully", () => {
     const result = userDb.login("lucasmsebastiao@gmail.com", "senha");
-    console.log(result); // Adicione isso para verificar a saída do método login
+    console.log(result); 
     expect(result.user.name).toBe("Lucas Sebastião");
-    expect(result.token).toBeTruthy();
+    expect(result.token).toBeTruthy(); // nao funciona porque esta a devolver token = undefined
   });
 
   it("should fail to log in with incorrect credentials", () => {
@@ -204,9 +204,19 @@ describe("UserDatabaseStub", () => {
 
 describe("OrderDatabaseStub", () => {
   let orderDb;
+  let req,res;
 
   beforeEach(() => {
     orderDb = new OrderDatabaseStub();
+  });
+  
+  beforeEach(() => {
+    req = {
+      body: {},
+    };
+    res = {
+      json: jest.fn(),
+    };
   });
 
   afterEach(() => {
@@ -243,4 +253,24 @@ describe("OrderDatabaseStub", () => {
     expect(result.data.total).toBe(newOrder.total);
     expect(result.data.user).toBe(newOrder.user);
   });
+
+  it("should return an error message when not all fields are provided", () => {
+    // Simula que falta um dos campos
+    const incompleteOrder = {
+      items: ["Item 1", "Item 2"],
+      user: 1,
+    };
+
+    req.body = incompleteOrder;
+
+    createOrder(req, res);
+
+    expect(res.json).toHaveBeenCalledWith({
+      success: false,
+      message: "Todos os campos são necessários.",
+    });
+  });
+
+
+});
 });

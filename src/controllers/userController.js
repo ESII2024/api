@@ -17,9 +17,13 @@ function updateUser(req, res) {
 
 function getUser(req, res) {
 	const { id } = req.params;
-	res.json(dbStub.get(id));
-}
-
+	const user = dbStub.get(id);
+	if (!user) {
+	  return res.status(404).json({ success: false, message: "User not found." });
+	}
+	res.json(user);
+  }
+  
 function login(req, res) {
 	const { email } = req.body;
 	const { password } = req.body;

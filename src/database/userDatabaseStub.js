@@ -28,7 +28,6 @@ class UserDatabaseStub {
 				password: user.password !== null && user.password !== undefined ? user.password : currentUser.password,
 			};
 			this.users[index] = updatedUser;
-			console.log(this.users[index]);
 			return this.users[index];
 		}
 
@@ -65,8 +64,6 @@ class UserDatabaseStub {
 			const user = this.users.find((user) => user.email === email && user.password === password);
 			if (user) {
 				const token = jwt.sign({ ...user }, JWT_SECRET, { expiresIn: "1h" });
-				console.log({...user});
-				console.log({ oi: "oi", user, ola: token });
 				return { user, token };
 			} else {
 				return { success: false, message: "Algum dado esta errado." };

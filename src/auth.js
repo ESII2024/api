@@ -13,7 +13,6 @@ const verifyToken = (token) => {
 };
 
 const hasPermission = (user, method, path) => {
-	console.log(user.role, method, path);
 	return checkPermission(user.role, method, path);
 };
 

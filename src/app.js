@@ -15,6 +15,10 @@ app.use(logger);
 app.use("/api", authRoutes);
 app.use("/api", authMiddleware, routes);
 
+app.use((req, res) => {
+	res.json({ success: false, data: "Endpoint não existe!" });
+});
+
 app.use((err, req, res, next) => {
 	if (err.status) {
 		res.status(err.status).json({ error: err.message });

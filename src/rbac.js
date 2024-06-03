@@ -13,7 +13,7 @@ function checkPermission(role, method, url) {
 
 			if (permissionMethod.toUpperCase() === method.toUpperCase()) {
 				if (permissionUrl.endsWith("*")) {
-					const trimmedPermissionUrl = permissionUrl.substring(0, permissionUrl.length - 1);
+					const trimmedPermissionUrl = permissionUrl.substring(0, permissionUrl.length - 2);
 					if (url.startsWith(trimmedPermissionUrl)) {
 						return true;
 					}

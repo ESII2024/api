@@ -50,27 +50,27 @@ describe('Check Permission - Cobertura de decisões', () => {
   beforeEach(() => {
   });
 
-  test('não entra em nenhum if', () => {
+  test('Role não existe', () => {
     result = checkPermission("nao_existo", null, null);
     expect(result).toBe(false);
   });
 
-  test('entra no primeiro if', () => {
+  test('Compara método com lista', () => {
     result = checkPermission("admin", "DELETE", null);
     expect(result).toBe(false);
   });
 
-  test('entra no terceiro if', () => {
+  test('Verifica se tem parametro adicional (/:id)', () => {
     result = checkPermission("admin", "GET", "/api/order/1");
     expect(result).toBe(true);
   });
 
-  test('entra no quarto if', () => {
+  test('Verifica se route existe', () => {
     result = checkPermission("admin", "GET", "nao_existo");
     expect(result).toBe(false);
   });
 
-  test('entra no else if', () => {
+  test('Verifica se não tem parametro adicional', () => {
     result = checkPermission("admin", "POST", "/api/user");
     expect(result).toBe(true);
   });
@@ -82,12 +82,12 @@ describe('Check Permission - Cobertura de condições', () => {
   beforeEach(() => {
   });
 
-  test('entra no terceiro if', () => {
+  test('Verifica se tem parametro adicional (/:id)', () => {
     result = checkPermission("admin", "GET", "/api/order/1");
     expect(result).toBe(true);
   });
 
-  test('entra no else if', () => {
+  test('Verifica se não tem parametro adicional', () => {
     result = checkPermission("admin", "POST", "/api/user");
     expect(result).toBe(true);
   });

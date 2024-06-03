@@ -174,6 +174,21 @@ describe("whiteboxtests", () => {
       expect(user).toBe(null);
     });
 
+      it("should return an error message if any field is missing", () => {
+    const testCases = [
+      { name: "", email: "test@example.com", role: "user", password: "password" },
+      { name: "Test User", email: "", role: "user", password: "password" },
+      { name: "Test User", email: "test@example.com", role: "", password: "password" },
+      { name: "Test User", email: "test@example.com", role: "user", password: "" }
+    ];
+
+    testCases.forEach(testCase => {
+      req.body = testCase;
+      createUser(req, res);
+      expect(res.json).toHaveBeenCalledWith({ success: false, message: "Todos os campos são necessários." });
+    });
+  });
+
     it("should fail to log in with incorrect credentials", () => {
       const result = userDb.login("lucasmsebastiao@gmail.com", "wrongpassword");
       expect(result.success).toBe(false);
@@ -239,6 +254,8 @@ describe("whiteboxtests", () => {
         user: 1
       });
     });
+
+    
 
     it("should return an object with success: false and an error message for non-existent order ID", () => {
       const id = 10; // ID que não existe nos dados simulados
